@@ -1,8 +1,9 @@
 package com.softserveinc.task02;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Task02 {
 
@@ -20,32 +21,35 @@ public class Task02 {
 
     static List<Employee> ex01() {
         // TODO: find and return list of all male employee with aged 18 to 27 (inclusive)
-        return null;
+        return EMPLOYEES.stream().filter(emp -> emp.getGender() == Gender.MAN).filter(emp -> emp.getAge() >= 18 && emp.getAge() <= 27).collect(Collectors.toList());
     }
 
     static double ex02() {
         // TODO: compute the average age of all male
-        return 0L;
+        return EMPLOYEES.stream().filter(emp -> emp.getGender() == Gender.MAN).mapToDouble(emp -> emp.getAge()).average().getAsDouble();
     }
 
     static long ex03() {
         // TODO: count how many employees are male aged 18 to 60 and women aged 18 to 55
-        return 0L;
+        long count;
+        count = EMPLOYEES.stream().filter(emp -> emp.getGender() == Gender.MAN && emp.getAge() >= 18 && emp.getAge() <= 60).count();
+        count += EMPLOYEES.stream().filter(emp -> emp.getGender() == Gender.WOMEN && emp.getAge() >= 18 && emp.getAge() <= 55).count();
+        return count;
     }
 
     static List<Employee> ex04() {
         // TODO: return the list of employees was sort employee by name in descending order
-        return null;
+        return EMPLOYEES.stream().sorted(Comparator.comparing(Employee::getName).reversed()).collect(Collectors.toList());
     }
 
     static Employee ex05() {
         // TODO: find and return the oldest employee
-        return null;
+        return EMPLOYEES.stream().max(Comparator.comparing(Employee::getAge)).get();
     }
 
     static Employee ex06() {
         // TODO: find and return the youngest employee
-        return null;
+        return EMPLOYEES.stream().min(Comparator.comparing(Employee::getAge)).get();
     }
 
     public static void main(String[] args) {
